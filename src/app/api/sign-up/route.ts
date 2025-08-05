@@ -34,6 +34,7 @@ export async function POST(request: Request) {
                 },{status:400})
             }else{
                 const hashedPassword = await bcrypt.hash(password,10);
+                existingUserByEmail.username = username;
                 existingUserByEmail.password = hashedPassword;
                 existingUserByEmail.verifyCode = verifyCode;
                 existingUserByEmail.verifyCodeExpiry = new Date(Date.now() + 360000);
@@ -55,7 +56,7 @@ export async function POST(request: Request) {
                     isAcceptingMessage: true,
                     messages: []
             })
-
+          
             await newUser.save()
         }
         // send verification email 
@@ -78,7 +79,7 @@ export async function POST(request: Request) {
             },{status:200})
 
     } catch (error) {
-        console.error("Error registering user");
+        console.error(error);
         return Response.json({
             success: false,
             message: "Error registering user"

@@ -1,20 +1,83 @@
 'use client'
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useParams, useRouter } from 'next/navigation'
+import { toast } from 'sonner'
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import { signInSchema } from '@/schemas/signInSchema'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { signIn } from 'next-auth/react'
 
-export default function Component() {
-  const { data: session } = useSession()
-  if (session) {
-    return (
-      <>
-        Signed in as {session.user.email} <br />
-        <button onClick={() => signOut()}>Sign out</button>
-      </>
-    )
+const page = () => {
+  const router = useRouter()
+  const params = useParams()
+  const form = useForm<z.infer<typeof signInSchema>>({
+    resolver: zodResolver(signInSchema),
+
+  })
+
+  const onSubmit = async (data: z.infer<typeof signInSchema>) => {
+    const result = await signIn('credentials',{
+      redirect:false,
+      identifier:data.identifier,
+      password:data.password
+    })
+    if(result?.error){
+      toast.error('Incorrect username or password')
+    }
+
+    if(result?.url){
+      router.replace('/dashboard');
+    }
   }
+
   return (
-    <>
-      Not signed in <br />
-      <button onClick={() => signIn()}>Sign in</button>
-    </>
+    <div className='flex justify-center items-center min-h-screen bg-gray-100'>
+      <div className='w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md'>
+        <div className='text-center'>
+          <h1 className='text-4xl font-extrabold tracking-tight lg:text-5xl mb-6'>
+            Sign In
+          </h1>
+          <p className='mb-4'>Sign in to start your anonymous adventure</p>
+        </div>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="identifier"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email/Username</FormLabel>
+                  <FormControl>
+                    <Input type='email' placeholder="email/username" {...field} onChange={(e) => { field.onChange(e) }} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input type='password' placeholder='password' {...field} onChange={(e) => { field.onChange(e) }} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit">Sign In</Button>
+          </form>
+        </Form>
+      </div>
+
+    </div>
   )
 }
+
+export default page
