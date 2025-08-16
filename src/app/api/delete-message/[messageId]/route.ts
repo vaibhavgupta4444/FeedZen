@@ -27,6 +27,7 @@ export async function DELETE(request: Request) {
             message: "Message deleted successfully!"
         });
     } catch (error) {
+        console.log(error);
         return Response.json({
             success: false,
             message: "Error deleting message"

@@ -6,7 +6,7 @@ import {
   CardTitle,
   CardDescription,
   CardContent,
-  CardFooter,
+  
 } from "@/components/ui/card"
 import {
   AlertDialog,
@@ -38,6 +38,7 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
       toast.success(response.data.message)
       onMessageDelete(message.id)
     } catch (error) {
+      console.error(error);
       toast.error("Failed to delete message.")
     }
   }

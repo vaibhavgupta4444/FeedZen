@@ -1,5 +1,6 @@
 'use client'
-import { useParams, useRouter } from 'next/navigation'
+
+import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -11,26 +12,25 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { signIn } from 'next-auth/react'
 
-const page = () => {
+const SignInPage = () => {
   const router = useRouter()
-  const params = useParams()
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
-
   })
 
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
-    const result = await signIn('credentials',{
-      redirect:false,
-      identifier:data.identifier,
-      password:data.password
+    const result = await signIn('credentials', {
+      redirect: false,
+      identifier: data.identifier,
+      password: data.password,
     })
-    if(result?.error){
+
+    if (result?.error) {
       toast.error('Incorrect username or password')
     }
 
-    if(result?.url){
-      router.replace('/dashboard');
+    if (result?.url) {
+      router.replace('/dashboard')
     }
   }
 
@@ -43,6 +43,7 @@ const page = () => {
           </h1>
           <p className='mb-4'>Sign in to start your anonymous adventure</p>
         </div>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
@@ -52,12 +53,13 @@ const page = () => {
                 <FormItem>
                   <FormLabel>Email/Username</FormLabel>
                   <FormControl>
-                    <Input type='email' placeholder="email/username" {...field} onChange={(e) => { field.onChange(e) }} />
+                    <Input type='email' placeholder="email/username" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="password"
@@ -65,19 +67,21 @@ const page = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input type='password' placeholder='password' {...field} onChange={(e) => { field.onChange(e) }} />
+                    <Input type='password' placeholder='password' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit">Sign In</Button>
+
+            <Button type="submit" disabled={form.formState.isSubmitting}>
+              {form.formState.isSubmitting ? 'Signing In...' : 'Sign In'}
+            </Button>
           </form>
         </Form>
       </div>
-
     </div>
   )
 }
 
-export default page
+export default SignInPage

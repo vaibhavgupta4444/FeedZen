@@ -1,9 +1,23 @@
-import React from "react";
+'use client'
 
-const LandingPage = () => {
+import React from "react";
+import Image from "next/image";
+
+interface FeatureCardProps {
+  title: string;
+  description: string;
+}
+
+const FeatureCard: React.FC<FeatureCardProps> = ({ title, description }) => (
+  <div className="p-6 border border-black rounded-lg hover:bg-black hover:text-white transition duration-300">
+    <h3 className="text-xl font-semibold mb-2">{title}</h3>
+    <p className="text-sm">{description}</p>
+  </div>
+);
+
+const LandingPage: React.FC = () => {
   return (
     <div className="bg-white text-black font-sans">
-      {/* Hero Section */}
       {/* Hero Section */}
       <section className="min-h-screen flex flex-col md:flex-row items-center justify-between px-6 md:px-20 py-24 gap-12 bg-white text-black">
         {/* Left Text Content */}
@@ -26,15 +40,16 @@ const LandingPage = () => {
         </div>
 
         {/* Right Side Illustration */}
-        <div className="flex-1 flex justify-center">
-          <img
+        <div className="flex-1 flex justify-center relative w-full max-w-md h-[400px]">
+          <Image
             src="/image.jpg"
             alt="People in discussion, blurred black and white"
-            className="w-full max-w-md rounded-lg shadow-lg filter grayscale"
+            className="rounded-lg shadow-lg filter grayscale object-cover"
+            fill
+            priority
           />
         </div>
       </section>
-
 
       {/* Features Section */}
       <section className="py-20 px-6 bg-white">
@@ -62,18 +77,5 @@ const LandingPage = () => {
     </div>
   );
 };
-
-const FeatureCard = ({
-  title,
-  description,
-}: {
-  title: string;
-  description: string;
-}) => (
-  <div className="p-6 border border-black rounded-lg hover:bg-black hover:text-white transition duration-300">
-    <h3 className="text-xl font-semibold mb-2">{title}</h3>
-    <p className="text-sm">{description}</p>
-  </div>
-);
 
 export default LandingPage;
