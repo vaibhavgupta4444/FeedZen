@@ -1,5 +1,5 @@
-import Navbar from "@/components/Navbar"
-import '@/app/globals.css'
+
+import './globals.css'
 
 
 export const metadata = {
