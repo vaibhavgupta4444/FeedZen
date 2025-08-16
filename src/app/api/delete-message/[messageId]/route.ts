@@ -2,10 +2,11 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/options";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/models/User";
-import { NextRequest } from "next/server";
 
-export async function DELETE(request: NextRequest, { params }: { params: { messageId: string } }) {
+
+export async function DELETE(request: Request) {
     await dbConnect();
+    const { searchParams } = new URL(request.url);
 
     const session = await getServerSession(authOptions);
     if (!session || !session.user) {
@@ -18,7 +19,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { messa
     try {
         await UserModel.updateOne(
             { _id: session.user._id },
-            { $pull: { messages: { _id: params.messageId } } }
+            { $pull: { messages: { _id: searchParams.get('messageId') } } }
         );
 
         return Response.json({

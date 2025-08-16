@@ -15,7 +15,7 @@ const LandingPage = () => {
             FeedZen lets you collect genuine feedback from peers, teams, or users without revealing their identity.
           </p>
           <a
-            href="/signup"
+            href="/sign-up"
             className="border border-black text-black px-6 py-3 rounded-full font-medium hover:bg-black hover:text-white transition"
           >
             Get Started
