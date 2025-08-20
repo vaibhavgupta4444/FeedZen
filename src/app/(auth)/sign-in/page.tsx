@@ -51,9 +51,9 @@ const SignInPage = () => {
               name="identifier"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email/Username</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input type='email' placeholder="email/username" {...field} />
+                    <Input type='email' placeholder="joeDoe@feedZen.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -79,6 +79,14 @@ const SignInPage = () => {
             </Button>
           </form>
         </Form>
+        <div className='text-center mt-4'>
+          <p>
+            Don't have account?{' '}
+            <a href='/sign-up' className='text-blue-600 hover:text-blue-800'>
+              Sign up
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   )

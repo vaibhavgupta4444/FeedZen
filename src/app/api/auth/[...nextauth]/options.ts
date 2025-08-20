@@ -29,7 +29,7 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "credentials",
       credentials: {
-        identifier: { label: "Email/Username", type: "text", placeholder: "joeDoe@gmail.com" },
+        identifier: { label: "Email", type: "email", placeholder: "joeDoe@feedZen.com" },
         password: { label: "Password", type: "password" }
       },
       async authorize(
@@ -44,6 +44,7 @@ export const authOptions: NextAuthOptions = {
             { username: credentials.identifier }
           ]
         })
+        
 
         if (!user) throw new Error("No user found with this email or username")
         if (!user.isVerified) throw new Error("Please verify your account before login")

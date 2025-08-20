@@ -84,7 +84,8 @@ const Page = () => {
   }
 
   // Copy profile URL to clipboard
-  const username = (session?.user as User)?.username
+  const username = (session?.user)?.name
+  console.log("session",session?.user)
   const baseUrl = typeof window !== "undefined" ? `${window.location.protocol}//${window.location.host}` : ""
   const profileUrl = `${baseUrl}/u/${username}`
   const copyToClipboard = () => {
