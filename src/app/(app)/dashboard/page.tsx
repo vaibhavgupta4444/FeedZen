@@ -4,7 +4,7 @@ import MessageCard from "@/components/MessageCard"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Switch } from "@/components/ui/switch"
-import { Message, User } from "@/models/User"
+import { Message } from "@/models/User"
 import { acceptMessageSchema } from "@/schemas/acceptMessageSchema"
 import { ApiResponse } from "@/types/ApiResponse"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -85,7 +85,7 @@ const Page = () => {
 
   // Copy profile URL to clipboard
   const username = (session?.user)?.name
-  console.log("session",session?.user)
+  
   const baseUrl = typeof window !== "undefined" ? `${window.location.protocol}//${window.location.host}` : ""
   const profileUrl = `${baseUrl}/u/${username}`
   const copyToClipboard = () => {

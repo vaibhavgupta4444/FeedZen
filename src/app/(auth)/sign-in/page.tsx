@@ -81,7 +81,7 @@ const SignInPage = () => {
         </Form>
         <div className='text-center mt-4'>
           <p>
-            Don't have account?{' '}
+            Not have account yet?{' '}
             <a href='/sign-up' className='text-blue-600 hover:text-blue-800'>
               Sign up
             </a>
